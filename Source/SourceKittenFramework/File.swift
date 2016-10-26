@@ -19,7 +19,7 @@ public final class File {
     /// File contents.
     public var contents: String
     /// File lines.
-    public let lines: [Line]
+    public var lines: [Line]
     /// Subfile starting line.
     public var startLine = 1
     /// Subfile starting offset.
@@ -41,7 +41,6 @@ public final class File {
             fputs("Could not read contents of `\(path)`\n", stderr)
             return nil
         }
-        self.path = nil
     }
     
     /**

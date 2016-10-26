@@ -1,3 +1,4 @@
+
 //
 //  FileTests.swift
 //  SourceKitten
@@ -20,7 +21,8 @@ class FileTests: XCTestCase {
         let formattedFile = file?.format(trimmingTrailingWhitespace: true,
                                          useTabs: false,
                                          indentWidth: 4)
-        XCTAssertEqual(formattedFile!, try! String(contentsOfFile: fixturesDirectory + "Bicycle.swift", encoding: .utf8))
+        let comparableContent = try! String(contentsOfFile: fixturesDirectory + "Bicycle.swift", encoding: .utf8)
+        XCTAssertEqual(formattedFile!, comparableContent )
     }
 }
 
