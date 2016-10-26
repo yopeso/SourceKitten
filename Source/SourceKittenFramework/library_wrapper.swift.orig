@@ -53,9 +53,13 @@ struct Loader {
         // try all fullPaths that contains target file,
         // then try loading with simple path that depends resolving to DYLD
         for fullPath in fullPaths + [path] {
+<<<<<<< HEAD
+            if let handle = dlopen(fullPath, RTLD_LAZY) {
+=======
             print("SourceKitten: searching for sourcekit in \(fullPath)")
             let handle = dlopen(fullPath, RTLD_LAZY)
-            if let handle = handle {
+            if handle != nil {
+>>>>>>> 54b40f5... Update to suit Taylor needs
                 return DynamicLinkLibrary(path: path, handle: handle)
             }
         }

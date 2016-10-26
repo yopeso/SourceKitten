@@ -33,10 +33,19 @@ public final class File {
     - parameter path: File path.
     */
     public init?(path: String) {
+<<<<<<< HEAD
         self.path = path.bridge().absolutePathRepresentation()
         do {
             contents = try String(contentsOfFile: path, encoding: .utf8)
             lines = contents.bridge().lines()
+=======
+        self.path = (path as NSString).absolutePathRepresentation()
+
+        do {
+            let sourceCode = try NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String
+            let data = sourceCode.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: true)
+            contents = NSString(data: data!, encoding: NSUTF8StringEncoding) as! String
+            lines = contents.lines()
         } catch {
             fputs("Could not read contents of `\(path)`\n", stderr)
             return nil
@@ -50,10 +59,11 @@ public final class File {
     
     public init?(path: String, startLine: Int, startOffset: Int, size: Int) {
         do {
-            let sourceCode = try NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
-            let data = sourceCode.data(using: String.Encoding.ascii, allowLossyConversion: true)
-            contents = NSString(data: data!, encoding: String.Encoding.utf8.rawValue) as! String
+            let sourceCode = try NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as String
+            let data = sourceCode.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: true)
+            contents = NSString(data: data!, encoding: NSUTF8StringEncoding) as! String
             lines = contents.lines()
+>>>>>>> 54b40f5... Update to suit Taylor needs
         } catch {
             fputs("Could not read contents of `\(path)`\n", stderr)
             return nil
@@ -76,8 +86,7 @@ public final class File {
     
     public init(lines: [String], startLine: Int, startOffset: Int) {
         path = nil
-        let lines = lines.reduce("") { $0 + "\n" + $1 }.characters.dropFirst()
-        self.contents = String(lines)
+        self.contents = String(lines.reduce("") { $0 + "\n" + $1 }.characters.dropFirst())
         self.lines = self.contents.lines()
         
         self.startLine = startLine
@@ -234,8 +243,13 @@ public final class File {
         }
 
         // Update substructure
-        if let substructure = newSubstructureWithComments(dictionary: dictionary, cursorInfoRequest: cursorInfoRequest, syntaxMap: syntaxMap) {
+<<<<<<< HEAD
+        if let substructure = newSubstructure(dictionary, cursorInfoRequest: cursorInfoRequest, syntaxMap: syntaxMap) {
             dictionary[SwiftDocKey.substructure.rawValue] = substructure
+=======
+        if let substructure = newSubstructureWithComments(dictionary, cursorInfoRequest: cursorInfoRequest, syntaxMap: syntaxMap) {
+            dictionary[SwiftDocKey.Substructure.rawValue] = substructure
+>>>>>>> 54b40f5... Update to suit Taylor needs
         }
         return dictionary
     }
@@ -287,7 +301,7 @@ public final class File {
         return SwiftDocKey.getSubstructure(dictionary)?
             .map({ $0 as! [String: SourceKitRepresentable] })
             .map {
-                process(dictionary: $0, cursorInfoRequest: cursorInfoRequest, syntaxMap: syntaxMap)
+                processDictionary($0, cursorInfoRequest: cursorInfoRequest, syntaxMap: syntaxMap)
         }
     }
 

@@ -19,7 +19,12 @@ public struct Structure {
      - parameter sourceKitResponse: SourceKit `editor.open` response.
      */
     public init(sourceKitResponse: [String: SourceKitRepresentable]) {
+<<<<<<< HEAD
+        var sourceKitResponse = sourceKitResponse
+        _ = sourceKitResponse.removeValue(forKey: SwiftDocKey.syntaxMap.rawValue)
+=======
         syntaxMap = SyntaxMap(sourceKitResponse: sourceKitResponse)
+>>>>>>> 54b40f5... Update to suit Taylor needs
         dictionary = sourceKitResponse
     }
     
