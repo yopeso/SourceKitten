@@ -329,7 +329,7 @@ public enum Request {
         var values = Array(dict.values)
         return sourcekitd_request_dictionary_create(&keys, &values, dict.count)
     }
-
+    
     /**
     Create a Request.CursorInfo.sourcekitObject() from a file path and compiler arguments.
 
@@ -344,7 +344,7 @@ public enum Request {
         }
         return nil
     }
-
+    
     /**
     Send a Request.CursorInfo by updating its offset. Returns SourceKit response if successful.
 
@@ -360,7 +360,7 @@ public enum Request {
         sourcekitd_request_dictionary_set_int64(cursorInfoRequest, sourcekitd_uid_get_from_cstr(SwiftDocKey.offset.rawValue), offset)
         return try? Request.customRequest(request: cursorInfoRequest).failableSend()
     }
-
+    
     /**
     Sends the request to SourceKit and return the response as an [String: SourceKitRepresentable].
 
